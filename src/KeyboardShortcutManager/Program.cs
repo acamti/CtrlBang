@@ -1,7 +1,9 @@
 using System;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AcamTi.KeyboardShortcutManager
@@ -9,26 +11,88 @@ namespace AcamTi.KeyboardShortcutManager
     internal static class Program
     {
         private static readonly CancellationTokenSource Token = new CancellationTokenSource();
+        private static Thread _keyListenerThread;
+        private static SettingsForm _settingsForm;
+        private static NotifyIcon _icon;
 
         /// <summary>
         ///     The main entry point for the application.
         /// </summary>
-        /// <param name="args"></param>
         [STAThread]
-        private static async Task Main(string[] args)
+        private static void Main()
         {
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var keyListener = new KeyListener
+            StartKeyListeningThread();
+            SetupExitBehavior();
+            SetTaskbarIcon();
+
+            Application.Run();
+        }
+
+        private static void SetupExitBehavior()
+        {
+            Application.ApplicationExit += (sender, eventArgs) =>
             {
-                OnKeyActivityChanged = OnKeyActivityChanged
+                _icon.Icon = null;
+                Token.Cancel();
+            };
+        }
+
+        private static void StartKeyListeningThread()
+        {
+            _keyListenerThread = new Thread(
+                async () =>
+                {
+                    var keyListener = new KeyListener
+                    {
+                        OnKeyActivityChanged = OnKeyActivityChanged
+                    };
+
+                    await keyListener.ListenToKeyboardActivity(Token.Token);
+                }
+            );
+
+            _keyListenerThread.Start();
+        }
+
+        private static void SetTaskbarIcon()
+        {
+            const string ICON_ASSEMBLY = "AcamTi.KeyboardShortcutManager.icon.ico";
+
+            Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream(ICON_ASSEMBLY);
+
+            _icon = new NotifyIcon
+            {
+                Icon = new Icon(s),
+                Visible = true,
+                Text = Application.ProductName,
+                BalloonTipTitle = "Keyboard Shortcut Manager",
+                BalloonTipText = "Now listening to your commands...",
+                ContextMenuStrip = new ContextMenuStrip()
             };
 
-            Application.ApplicationExit += ApplicationOnApplicationExit;
+            _icon.ContextMenuStrip.Items.Add(
+                "Exit",
+                null,
+                (sender, args) => Application.Exit()
+            );
 
-            await keyListener.ListenToKeyboardActivity(Token.Token);
+            _icon.BalloonTipClicked += IconOnClick;
+            _icon.Click += IconOnClick;
+
+            _icon.ShowBalloonTip(2000);
+        }
+
+        private static void IconOnClick(object sender, EventArgs e)
+        {
+            if (_settingsForm != null &&
+                _settingsForm.Visible) return;
+
+            _settingsForm = new SettingsForm();
+            _settingsForm.Show();
         }
 
         private static void OnKeyActivityChanged(Keys[] pressedKeys)
@@ -37,11 +101,6 @@ namespace AcamTi.KeyboardShortcutManager
                 Console.WriteLine($"Key pressed: {string.Join(" + ", pressedKeys)}");
             else
                 Console.WriteLine("Key pressed: None");
-        }
-
-        private static void ApplicationOnApplicationExit(object sender, EventArgs e)
-        {
-            Token.Cancel();
         }
     }
 }

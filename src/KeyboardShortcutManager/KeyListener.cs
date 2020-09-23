@@ -42,7 +42,7 @@ namespace AcamTi.KeyboardShortcutManager
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                await Task.Delay(100, cancellationToken);
+                await Task.Delay(100);
 
                 int[] pressedKeys = keyRange
                     .Select((index, state) => (Key: index, State: GetAsyncKeyState(state)))
@@ -62,12 +62,11 @@ namespace AcamTi.KeyboardShortcutManager
             if (_monitoredKeys.Any(key => key == (Keys) keyValue))
                 return;
 
-            if (IsMonitored(keyValue))
-            {
-                _monitoredKeys.Add((Keys) keyValue);
+            if (!IsMonitored(keyValue)) return;
 
-                OnKeyActivityChanged(_monitoredKeys.OrderBy(key => (int) key).ToArray());
-            }
+            _monitoredKeys.Add((Keys) keyValue);
+
+            OnKeyActivityChanged(_monitoredKeys.OrderBy(key => (int) key).ToArray());
         }
 
         private bool IsMonitored(int keyValue) =>
