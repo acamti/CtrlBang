@@ -1,17 +1,13 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace AcamTi.KeyboardShortcutManager
 {
     internal static class Program
     {
-        private static readonly CancellationTokenSource Token = new CancellationTokenSource();
-        private static Thread _keyListenerThread;
         private static SettingsForm _settingsForm;
         private static NotifyIcon _icon;
 
@@ -25,37 +21,16 @@ namespace AcamTi.KeyboardShortcutManager
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            StartKeyListeningThread();
-            SetupExitBehavior();
             SetTaskbarIcon();
 
+            Application.ApplicationExit += ApplicationOnApplicationExit;
             Application.Run();
         }
 
-        private static void SetupExitBehavior()
+        private static void ApplicationOnApplicationExit(object sender, EventArgs e)
         {
-            Application.ApplicationExit += (sender, eventArgs) =>
-            {
-                _icon.Icon = null;
-                Token.Cancel();
-            };
-        }
-
-        private static void StartKeyListeningThread()
-        {
-            _keyListenerThread = new Thread(
-                async () =>
-                {
-                    var keyListener = new KeyListener
-                    {
-                        OnKeyActivityChanged = OnKeyActivityChanged
-                    };
-
-                    await keyListener.ListenToKeyboardActivity(Token.Token);
-                }
-            );
-
-            _keyListenerThread.Start();
+            _icon.Dispose();
+            _icon = null;
         }
 
         private static void SetTaskbarIcon()
@@ -75,13 +50,16 @@ namespace AcamTi.KeyboardShortcutManager
             };
 
             _icon.ContextMenuStrip.Items.Add(
+                "Settings",
+                null,
+                IconOnClick
+            );
+
+            _icon.ContextMenuStrip.Items.Add(
                 "Exit",
                 null,
                 (sender, args) => Application.Exit()
             );
-
-            _icon.BalloonTipClicked += IconOnClick;
-            _icon.Click += IconOnClick;
 
             _icon.ShowBalloonTip(2000);
         }
@@ -93,14 +71,6 @@ namespace AcamTi.KeyboardShortcutManager
 
             _settingsForm = new SettingsForm();
             _settingsForm.Show();
-        }
-
-        private static void OnKeyActivityChanged(Keys[] pressedKeys)
-        {
-            if (pressedKeys?.Any() ?? false)
-                Console.WriteLine($"Key pressed: {string.Join(" + ", pressedKeys)}");
-            else
-                Console.WriteLine("Key pressed: None");
         }
     }
 }

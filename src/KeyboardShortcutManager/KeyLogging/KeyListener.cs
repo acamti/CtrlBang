@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AcamTi.KeyboardShortcutManager
+namespace AcamTi.KeyboardShortcutManager.KeyLogging
 {
     public class KeyListener
     {
+        private static KeyListener _keyListener;
+        private static Thread _keyListenerThread;
+
         private readonly Keys[] _keysToExclude =
         {
             Keys.LShiftKey,
@@ -27,23 +29,49 @@ namespace AcamTi.KeyboardShortcutManager
             Keys.MediaNextTrack,
             Keys.MediaPlayPause,
             Keys.MediaPreviousTrack,
-            Keys.SelectMedia
+            Keys.SelectMedia,
+            Keys.LButton,
+            Keys.MButton,
+            Keys.RButton,
+            Keys.XButton1,
+            Keys.XButton2
         };
 
         private List<Keys> _monitoredKeys;
         public Action<Keys[]> OnKeyActivityChanged;
 
-        public KeyListener() =>
+        private KeyListener() =>
             _monitoredKeys = new List<Keys>();
 
-        public async Task ListenToKeyboardActivity(CancellationToken cancellationToken)
+        public static KeyListener Listen()
+        {
+            StartThread();
+
+            return _keyListener;
+        }
+
+        private static void StartThread()
+        {
+            _keyListener ??= new KeyListener();
+
+            if (_keyListenerThread != null &&
+                _keyListenerThread.IsAlive) return;
+
+            _keyListenerThread = new Thread(
+                () => { _keyListener.ListenToKeyboardActivity(); }
+            );
+
+            _keyListenerThread.Start();
+        }
+
+        private void ListenToKeyboardActivity()
         {
             int[] keyRange = Enumerable.Range(0, 254).ToArray();
 
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                await Task.Delay(100);
+            Thread.Sleep(100);
 
+            while (OnKeyActivityChanged != null)
+            {
                 int[] pressedKeys = keyRange
                     .Select((index, state) => (Key: index, State: GetAsyncKeyState(state)))
                     .Where(x => x.State != 0)
