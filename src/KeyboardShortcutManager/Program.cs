@@ -37,7 +37,13 @@ namespace AcamTi.KeyboardShortcutManager
             Application.ApplicationExit += ApplicationOnApplicationExit;
 
             InitSettings();
-            Application.Run();
+
+            Application.Run(
+                new KeyShortcutCommanderForm
+                {
+                    GetSettings = () => _settings
+                }
+            );
         }
 
         private static void InitSettings()

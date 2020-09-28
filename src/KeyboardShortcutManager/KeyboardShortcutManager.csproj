@@ -17,6 +17,9 @@
       <Compile Update="SettingsForm.cs">
         <SubType>Form</SubType>
       </Compile>
+      <Compile Update="KeyShortcutCommanderForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
     </ItemGroup>
 
 </Project>
