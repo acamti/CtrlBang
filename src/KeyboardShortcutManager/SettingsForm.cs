@@ -7,24 +7,26 @@ namespace AcamTi.KeyboardShortcutManager
 {
     public partial class SettingsForm : Form
     {
+        private readonly Settings _settings;
         private KeyShortcutDetector _keyDetector;
-        private List<Keys> _selectedKeys = new List<Keys>(new[] { Keys.Control, Keys.LWin, Keys.Z });
+        public Action<Settings> OnSettingsUpdated;
 
-        public SettingsForm()
+        public SettingsForm(Settings settings)
         {
-            InitializeComponent();
+            _settings = settings;
 
+            InitializeComponent();
             DisplayKeyShortcut();
         }
 
         private void DisplayKeyShortcut()
         {
-            lblShortcut.Text = string.Join(" + ", _selectedKeys);
+            lblShortcut.Text = string.Join(" + ", _settings.KeyShortcutActivator);
         }
 
         private void btnSetShortcut_Click(object sender, EventArgs e)
         {
-            _selectedKeys.Clear();
+            _settings.KeyShortcutActivator.Clear();
             lblShortcut.Text = string.Empty;
 
             _keyDetector = new KeyShortcutDetector();
@@ -34,10 +36,11 @@ namespace AcamTi.KeyboardShortcutManager
 
         private void OnShortcutDetected(IEnumerable<Keys> keys)
         {
-            _selectedKeys = new List<Keys>(keys);
-
             _keyDetector?.Dispose();
             _keyDetector = null;
+
+            _settings.KeyShortcutActivator = new List<Keys>(keys);
+            OnSettingsUpdated(_settings);
 
             lblShortcut.Invoke(
                 new MethodInvoker(DisplayKeyShortcut)

@@ -1,7 +1,5 @@
 using System;
-using System.Drawing;
-using System.IO;
-using System.Reflection;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace AcamTi.KeyboardShortcutManager
@@ -9,7 +7,8 @@ namespace AcamTi.KeyboardShortcutManager
     internal static class Program
     {
         private static SettingsForm _settingsForm;
-        private static NotifyIcon _icon;
+        private static IconManager _icon;
+        private static Settings _settings;
 
         /// <summary>
         ///     The main entry point for the application.
@@ -21,55 +20,51 @@ namespace AcamTi.KeyboardShortcutManager
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            SetTaskbarIcon();
+            _icon = new IconManager();
 
-            Application.ApplicationExit += ApplicationOnApplicationExit;
-            Application.Run();
-        }
-
-        private static void ApplicationOnApplicationExit(object sender, EventArgs e)
-        {
-            _icon.Dispose();
-            _icon = null;
-        }
-
-        private static void SetTaskbarIcon()
-        {
-            const string ICON_ASSEMBLY = "AcamTi.KeyboardShortcutManager.icon.ico";
-
-            Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream(ICON_ASSEMBLY);
-
-            _icon = new NotifyIcon
-            {
-                Icon = new Icon(s),
-                Visible = true,
-                Text = Application.ProductName,
-                BalloonTipTitle = "Keyboard Shortcut Manager",
-                BalloonTipText = "Now listening to your commands...",
-                ContextMenuStrip = new ContextMenuStrip()
-            };
-
-            _icon.ContextMenuStrip.Items.Add(
+            _icon.AddMenuItem(
                 "Settings",
                 null,
                 IconOnClick
             );
 
-            _icon.ContextMenuStrip.Items.Add(
+            _icon.AddMenuItem(
                 "Exit",
                 null,
                 (sender, args) => Application.Exit()
             );
 
-            _icon.ShowBalloonTip(2000);
+            Application.ApplicationExit += ApplicationOnApplicationExit;
+
+            InitSettings();
+            Application.Run();
+        }
+
+        private static void InitSettings()
+        {
+            _settings = new Settings
+            {
+                KeyShortcutActivator = new List<Keys>
+                    { Keys.LWin, Keys.Enter }
+            };
+        }
+
+        private static void ApplicationOnApplicationExit(object sender, EventArgs e)
+        {
+            _icon.Dispose();
         }
 
         private static void IconOnClick(object sender, EventArgs e)
         {
-            if (_settingsForm != null &&
-                _settingsForm.Visible) return;
+            if (_settingsForm is null ||
+                !_settingsForm.Visible)
+            {
+                _settingsForm = new SettingsForm(_settings)
+                {
+                    OnSettingsUpdated = setting => _settings = setting
+                };
+            }
 
-            _settingsForm = new SettingsForm();
             _settingsForm.Show();
         }
     }
