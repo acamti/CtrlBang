@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Windows.Forms;
+using AcamTi.KeyboardShortcutManager.Forms;
 
 namespace AcamTi.KeyboardShortcutManager
 {
@@ -9,6 +11,7 @@ namespace AcamTi.KeyboardShortcutManager
         private static SettingsForm _settingsForm;
         private static IconManager _icon;
         private static Settings _settings;
+        private static KeyShortcutCommanderForm _keyShortcutCommanderForm;
 
         /// <summary>
         ///     The main entry point for the application.
@@ -20,6 +23,27 @@ namespace AcamTi.KeyboardShortcutManager
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            SetupIcon();
+
+            Application.ApplicationExit += ApplicationOnApplicationExit;
+
+            InitSettings();
+
+            InitCommander();
+
+            Application.Run();
+        }
+
+        private static void InitCommander()
+        {
+            _keyShortcutCommanderForm = new KeyShortcutCommanderForm
+            {
+                GetSettings = () => _settings
+            };
+        }
+
+        private static void SetupIcon()
+        {
             _icon = new IconManager();
 
             _icon.AddMenuItem(
@@ -34,16 +58,7 @@ namespace AcamTi.KeyboardShortcutManager
                 (sender, args) => Application.Exit()
             );
 
-            Application.ApplicationExit += ApplicationOnApplicationExit;
-
-            InitSettings();
-
-            Application.Run(
-                new KeyShortcutCommanderForm
-                {
-                    GetSettings = () => _settings
-                }
-            );
+            _icon.SetupClickBehavior(IconOnClick);
         }
 
         private static void InitSettings()

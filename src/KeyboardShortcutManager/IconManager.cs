@@ -8,7 +8,7 @@ namespace AcamTi.KeyboardShortcutManager
 {
     public class IconManager : IDisposable
     {
-        private static NotifyIcon _icon;
+        private NotifyIcon _icon;
 
         public IconManager()
         {
@@ -25,7 +25,8 @@ namespace AcamTi.KeyboardShortcutManager
             _icon.ShowBalloonTip(2000);
         }
 
-        private static Stream IconStream => Assembly.GetExecutingAssembly().GetManifestResourceStream("AcamTi.KeyboardShortcutManager.icon.ico");
+        private static Stream IconStream =>
+            Assembly.GetExecutingAssembly().GetManifestResourceStream("AcamTi.KeyboardShortcutManager.icon.ico");
 
         public void Dispose()
         {
@@ -36,6 +37,11 @@ namespace AcamTi.KeyboardShortcutManager
         public void AddMenuItem(string name, Image img, EventHandler eventHandler)
         {
             _icon.ContextMenuStrip.Items.Add(name, img, eventHandler);
+        }
+
+        public void SetupClickBehavior(EventHandler clickAction)
+        {
+            _icon.Click += clickAction;
         }
     }
 }

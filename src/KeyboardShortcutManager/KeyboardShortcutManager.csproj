@@ -14,10 +14,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="SettingsForm.cs">
+      <Compile Update="Forms\KeyShortcutCommanderForm.cs">
         <SubType>Form</SubType>
       </Compile>
-      <Compile Update="KeyShortcutCommanderForm.cs">
+      <Compile Update="Forms\SettingsForm.cs">
         <SubType>Form</SubType>
       </Compile>
     </ItemGroup>

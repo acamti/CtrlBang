@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using AcamTi.KeyboardShortcutManager.KeyLogging;
 
-namespace AcamTi.KeyboardShortcutManager
+namespace AcamTi.KeyboardShortcutManager.Forms
 {
     public partial class KeyShortcutCommanderForm : Form
     {
@@ -15,21 +15,26 @@ namespace AcamTi.KeyboardShortcutManager
         {
             InitializeComponent();
 
-            _keyMonitor = new KeyShortcutDetector
-            {
-                OnShortcutDetected = OnShortcutDetected
-            };
+            _keyMonitor = KeyShortcutDetector.InitService(OnShortcutDetected);
 
-            _keyMonitor.Start();
+            CreateControl();
+            CreateGraphics();
         }
 
         private void OnShortcutDetected(IEnumerable<Keys> keys)
         {
-            lblShortcut.Invoke(
-                IsShortcutActivator(keys)
-                    ? () => lblShortcut.Text = string.Join(" + ", keys)
-                    : new MethodInvoker(() => lblShortcut.Text = "Incorrect shortcut")
-            );
+            if (!IsShortcutActivator(keys))
+            {
+                if (!Visible) return;
+                BeginInvoke(new MethodInvoker(Hide));
+                lblListening.BeginInvoke(new MethodInvoker(lblListening.Hide));
+                return;
+            }
+
+            BeginInvoke(new MethodInvoker(Show));
+            BeginInvoke(new MethodInvoker(() => Focus()));
+
+            lblListening.BeginInvoke(new MethodInvoker(lblListening.Show));
         }
 
         private bool IsShortcutActivator(IEnumerable<Keys> keys)

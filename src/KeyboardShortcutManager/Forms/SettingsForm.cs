@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using AcamTi.KeyboardShortcutManager.KeyLogging;
 
-namespace AcamTi.KeyboardShortcutManager
+namespace AcamTi.KeyboardShortcutManager.Forms
 {
     public partial class SettingsForm : Form
     {
@@ -29,9 +29,7 @@ namespace AcamTi.KeyboardShortcutManager
             _settings.KeyShortcutActivator.Clear();
             lblShortcut.Text = string.Empty;
 
-            _keyDetector = new KeyShortcutDetector();
-            _keyDetector.OnShortcutDetected += OnShortcutDetected;
-            _keyDetector.Start();
+            _keyDetector = KeyShortcutDetector.InitService(OnShortcutDetected);
         }
 
         private void OnShortcutDetected(IEnumerable<Keys> keys)

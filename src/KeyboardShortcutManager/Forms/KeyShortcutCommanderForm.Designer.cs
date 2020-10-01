@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace AcamTi.KeyboardShortcutManager
+namespace AcamTi.KeyboardShortcutManager.Forms
 {
     partial class KeyShortcutCommanderForm
     {
@@ -28,38 +28,43 @@ namespace AcamTi.KeyboardShortcutManager
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblShortcut = new System.Windows.Forms.Label();
+            this.lblListening = new System.Windows.Forms.Label();
             this.SuspendLayout();
 
             // 
-            // lblShortcut
+            // lblListening
             // 
-            this.lblShortcut.Location = new System.Drawing.Point(12, 19);
-            this.lblShortcut.Name = "lblShortcut";
-            this.lblShortcut.Size = new System.Drawing.Size(227, 23);
-            this.lblShortcut.TabIndex = 0;
+            this.lblListening.Font = new System.Drawing.Font("Inconsolata", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblListening.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.lblListening.Location = new System.Drawing.Point(0, 30);
+            this.lblListening.Name = "lblListening";
+            this.lblListening.Size = new System.Drawing.Size(691, 23);
+            this.lblListening.TabIndex = 0;
+            this.lblListening.Text = "Listening...";
+            this.lblListening.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
             // 
             // KeyShortcutCommanderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Info;
-            this.ClientSize = new System.Drawing.Size(251, 70);
+            this.BackColor = System.Drawing.Color.Black;
+            this.ClientSize = new System.Drawing.Size(690, 79);
             this.ControlBox = false;
-            this.Controls.Add(this.lblShortcut);
+            this.Controls.Add(this.lblListening);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "KeyShortcutCommanderForm";
+            this.Opacity = 0.5D;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "KeyShortcutCommander";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.KeyShortcutCommander_FormClosing);
             this.ResumeLayout(false);
         }
 
-        private System.Windows.Forms.Label lblShortcut;
+        private System.Windows.Forms.Label lblListening;
 
         #endregion
     }
