@@ -97,5 +97,10 @@ namespace AcamTi.KeyboardShortcutManager.Forms
                 Content = txtPowershell.Text,
                 Shortcut = new List<Keys>(_keyShortcutActivator)
             };
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

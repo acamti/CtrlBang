@@ -35,11 +35,14 @@ namespace AcamTi.KeyboardShortcutManager.Forms
                         {
                             string.Join(" + ", action.Shortcut),
                             action.Content
-                        }
+                        },
+                        Tag = action
                     }
                 )
                 .ToList()
-                .ForEach(item => lstActionDefinitions.Items.Add(item));
+                .ForEach(
+                    item => { lstActionDefinitions.Items.Add(item); }
+                );
         }
 
         private void DisplayKeyShortcut()
@@ -93,31 +96,87 @@ namespace AcamTi.KeyboardShortcutManager.Forms
         {
             if (_settings.ActionDefinitions.Any(item => item.Id == itemToValidate.Id))
             {
-                // update
-                return _settings.ActionDefinitions.Where(i => i.Id != itemToValidate.Id)
-                    .All(
-                        item => itemToValidate.Shortcut.Aggregate(
-                            true,
-                            (result, key) => result && item.Shortcut.Any(s => s == key)
-                        )
-                    );
+                return _settings.ActionDefinitions
+                    .Where(i => i.Id != itemToValidate.Id)
+                    .All(item => IsKeyCombinaisonDifferent(item, itemToValidate));
             }
 
-            //add
-            return _settings.ActionDefinitions.All(
-                item =>
-                {
-                    var valid = false;
+            return _settings.ActionDefinitions
+                .All(item => IsKeyCombinaisonDifferent(item, itemToValidate));
+        }
 
-                    foreach (Keys key in itemToValidate.Shortcut)
-                    {
-                        if (item.Shortcut.All(k => k != key))
-                            valid = true;
-                    }
+        private static bool IsKeyCombinaisonDifferent(ActionDefinition actionDefinition1,
+            ActionDefinition actionDefinition2)
+        {
+            var valid = false;
+            Keys[] shortcutList1;
+            Keys[] shortcutList2;
 
-                    return valid;
-                }
+            if (actionDefinition1.Shortcut.Count() > actionDefinition2.Shortcut.Count())
+            {
+                shortcutList1 = actionDefinition1.Shortcut.ToArray();
+                shortcutList2 = actionDefinition2.Shortcut.ToArray();
+            }
+            else
+            {
+                shortcutList1 = actionDefinition2.Shortcut.ToArray();
+                shortcutList2 = actionDefinition1.Shortcut.ToArray();
+            }
+
+            foreach (Keys key in shortcutList1)
+            {
+                if (shortcutList2.All(k => k != key))
+                    valid = true;
+            }
+
+            return valid;
+        }
+
+        private void btnModify_Click(object sender, EventArgs e)
+        {
+            if (lstActionDefinitions.SelectedIndices.Count <= 0) return;
+
+            _actionDefinitionForm = new ActionDefinitionForm(
+                lstActionDefinitions.SelectedItems[0].Tag as ActionDefinition,
+                ActionDefinitionValidator
             );
+
+            _actionDefinitionForm.OnSave += actionDefinition =>
+            {
+                int index = _settings.ActionDefinitions.FindIndex(
+                    i => i.Id == actionDefinition.Id
+                );
+
+                if (index > -1)
+                    _settings.ActionDefinitions[index] = actionDefinition;
+
+                PrepareListOfActions();
+            };
+
+            Hide();
+            _actionDefinitionForm.ShowDialog();
+            Show();
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            if (lstActionDefinitions.SelectedIndices.Count <= 0) return;
+
+            var actionDefinition = lstActionDefinitions.SelectedItems[0].Tag as ActionDefinition;
+
+            int index = _settings.ActionDefinitions.FindIndex(
+                i => i.Id == actionDefinition?.Id
+            );
+
+            if (index > -1)
+                _settings.ActionDefinitions.RemoveAt(index);
+
+            PrepareListOfActions();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
