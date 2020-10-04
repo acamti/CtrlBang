@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 using System.Windows.Forms;
 using AcamTi.KeyboardShortcutManager.Forms;
+using AcamTi.KeyboardShortcutManager.KeyLogging;
 
 namespace AcamTi.KeyboardShortcutManager
 {
@@ -62,42 +65,23 @@ namespace AcamTi.KeyboardShortcutManager
 
         private static void InitSettings()
         {
+            if (File.Exists("./settings.json"))
+            {
+                _settings = JsonSerializer.Deserialize<Settings>(File.ReadAllText("./settings.json"));
+                return;
+            }
+
             _settings = new Settings
             {
-                KeyShortcutActivator = new List<Keys>
-                    { Keys.LWin, Keys.Enter },
-                ActionDefinitions = new List<ActionDefinition>(
-                    new[]
-                    {
-                        new ActionDefinition
-                        {
-                            Shortcut = new[] { Keys.T },
-                            Name = "Windows Terminal",
-                            Content = @"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe Start-Process -Verb RunAs wt",
-                            Type = ActionDefinition.ActionType.Powershell
-                        },
-                        new ActionDefinition
-                        {
-                            Shortcut = new[] { Keys.W, Keys.C },
-                            Name = "Chrome",
-                            Content = @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
-                            Type = ActionDefinition.ActionType.File
-                        },
-                        new ActionDefinition
-                        {
-                            Shortcut = new[] { Keys.B, Keys.T },
-                            Name = "Tangerine",
-                            Content = "https://www.tangerine.ca/fr",
-                            Type = ActionDefinition.ActionType.Url
-                        }
-                    }
-                )
+                KeyShortcutActivator = new List<Keys> { Keys.LWin, Keys.Enter },
+                ActionDefinitions = new List<ActionDefinition>()
             };
         }
 
         private static void ApplicationOnApplicationExit(object sender, EventArgs e)
         {
             _icon.Dispose();
+            KeyListener.Stop();
         }
 
         private static void IconOnClick(object sender, EventArgs e)
@@ -107,11 +91,18 @@ namespace AcamTi.KeyboardShortcutManager
             {
                 _settingsForm = new SettingsForm(_settings)
                 {
-                    OnSettingsUpdated = setting => _settings = setting
+                    OnSettingsUpdated = OnSettingsUpdated
                 };
             }
 
             _settingsForm.Show();
+        }
+
+        private static void OnSettingsUpdated(Settings setting)
+        {
+            _settings = setting;
+
+            File.WriteAllText("./settings.json", JsonSerializer.Serialize(setting));
         }
     }
 }

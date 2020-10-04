@@ -38,6 +38,8 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.txtPowershell = new System.Windows.Forms.TextBox();
+            this.txtFile = new System.Windows.Forms.TextBox();
+            this.txtUrl = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
 
             // 
@@ -86,27 +88,29 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             // rdoFile
             // 
             this.rdoFile.AutoSize = true;
+            this.rdoFile.Checked = true;
             this.rdoFile.Location = new System.Drawing.Point(28, 240);
             this.rdoFile.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rdoFile.Name = "rdoFile";
             this.rdoFile.Size = new System.Drawing.Size(99, 36);
             this.rdoFile.TabIndex = 4;
+            this.rdoFile.TabStop = true;
             this.rdoFile.Text = "File";
             this.rdoFile.UseVisualStyleBackColor = true;
+            this.rdoFile.CheckedChanged += new System.EventHandler(this.RdoTypeChanged);
 
             // 
             // rdoPowershell
             // 
             this.rdoPowershell.AutoSize = true;
-            this.rdoPowershell.Checked = true;
             this.rdoPowershell.Location = new System.Drawing.Point(153, 240);
             this.rdoPowershell.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rdoPowershell.Name = "rdoPowershell";
             this.rdoPowershell.Size = new System.Drawing.Size(192, 36);
             this.rdoPowershell.TabIndex = 4;
-            this.rdoPowershell.TabStop = true;
             this.rdoPowershell.Text = "Powershell";
             this.rdoPowershell.UseVisualStyleBackColor = true;
+            this.rdoPowershell.CheckedChanged += new System.EventHandler(this.RdoTypeChanged);
 
             // 
             // rdoUrl
@@ -119,6 +123,7 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             this.rdoUrl.TabIndex = 4;
             this.rdoUrl.Text = "Url";
             this.rdoUrl.UseVisualStyleBackColor = true;
+            this.rdoUrl.CheckedChanged += new System.EventHandler(this.RdoTypeChanged);
 
             // 
             // btnSave
@@ -157,13 +162,33 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             this.txtPowershell.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtPowershell.Size = new System.Drawing.Size(1177, 297);
             this.txtPowershell.TabIndex = 7;
+            this.txtPowershell.Visible = false;
+
+            // 
+            // txtFile
+            // 
+            this.txtFile.Location = new System.Drawing.Point(29, 305);
+            this.txtFile.Name = "txtFile";
+            this.txtFile.Size = new System.Drawing.Size(1177, 38);
+            this.txtFile.TabIndex = 8;
+
+            // 
+            // txtUrl
+            // 
+            this.txtUrl.Location = new System.Drawing.Point(28, 309);
+            this.txtUrl.Name = "txtUrl";
+            this.txtUrl.Size = new System.Drawing.Size(1177, 38);
+            this.txtUrl.TabIndex = 9;
+            this.txtUrl.Visible = false;
 
             // 
             // ActionDefinitionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1226, 609);
+            this.ClientSize = new System.Drawing.Size(1226, 623);
+            this.Controls.Add(this.txtUrl);
+            this.Controls.Add(this.txtFile);
             this.Controls.Add(this.txtPowershell);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
@@ -187,6 +212,8 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             this.PerformLayout();
         }
 
+        private System.Windows.Forms.TextBox txtFile;
+        private System.Windows.Forms.TextBox txtUrl;
         private System.Windows.Forms.Button btnSetShortcut;
         private System.Windows.Forms.Label lblShortcut;
 

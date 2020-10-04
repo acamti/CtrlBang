@@ -85,6 +85,8 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             {
                 _settings.ActionDefinitions.Add(actionDefinition);
                 PrepareListOfActions();
+
+                OnSettingsUpdated(_settings);
             };
 
             Hide();
@@ -151,6 +153,8 @@ namespace AcamTi.KeyboardShortcutManager.Forms
                     _settings.ActionDefinitions[index] = actionDefinition;
 
                 PrepareListOfActions();
+
+                OnSettingsUpdated(_settings);
             };
 
             Hide();
@@ -172,6 +176,8 @@ namespace AcamTi.KeyboardShortcutManager.Forms
                 _settings.ActionDefinitions.RemoveAt(index);
 
             PrepareListOfActions();
+
+            OnSettingsUpdated(_settings);
         }
 
         private void btnClose_Click(object sender, EventArgs e)

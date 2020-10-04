@@ -8,10 +8,10 @@ namespace AcamTi.KeyboardShortcutManager.KeyLogging
     public class KeyShortcutDetector : IDisposable
     {
         private KeyListener _keyListener;
+        private Action<IEnumerable<Keys>> _onShortcutDetected;
         private List<Keys> _pressedKeys;
-        public Action<IEnumerable<Keys>> OnShortcutDetected;
 
-        protected KeyShortcutDetector() =>
+        private KeyShortcutDetector() =>
             _pressedKeys = new List<Keys>();
 
         public void Dispose()
@@ -22,7 +22,7 @@ namespace AcamTi.KeyboardShortcutManager.KeyLogging
         public static KeyShortcutDetector InitService(Action<IEnumerable<Keys>> onShortcutDetected)
         {
             var detector = new KeyShortcutDetector();
-            detector.OnShortcutDetected += onShortcutDetected;
+            detector._onShortcutDetected += onShortcutDetected;
 
             detector.Start();
 
@@ -44,7 +44,7 @@ namespace AcamTi.KeyboardShortcutManager.KeyLogging
             }
             else
             {
-                OnShortcutDetected(_pressedKeys);
+                _onShortcutDetected(_pressedKeys);
                 _pressedKeys.Clear();
             }
         }

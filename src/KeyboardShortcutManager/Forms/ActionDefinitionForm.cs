@@ -72,10 +72,24 @@ namespace AcamTi.KeyboardShortcutManager.Forms
                 return;
             }
 
+            if (rdoFile.Checked &&
+                txtFile.Text.Trim() == string.Empty)
+            {
+                MessageBox.Show("File location cannot be empty");
+                return;
+            }
+
             if (rdoPowershell.Checked &&
                 txtPowershell.Text.Trim() == string.Empty)
             {
                 MessageBox.Show("Powershell script cannot be empty");
+                return;
+            }
+
+            if (rdoUrl.Checked &&
+                txtUrl.Text.Trim() == string.Empty)
+            {
+                MessageBox.Show("Url cannot be empty");
                 return;
             }
 
@@ -93,14 +107,37 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             new ActionDefinition(_id)
             {
                 Name = txtName.Text,
-                Type = ActionDefinition.ActionType.Powershell,
-                Content = txtPowershell.Text,
+                Type = ExtractType(),
+                Content = ExtractContent(),
                 Shortcut = new List<Keys>(_keyShortcutActivator)
             };
+
+        private string ExtractContent()
+        {
+            if (rdoFile.Checked) return txtFile.Text;
+
+            if (rdoPowershell.Checked) return txtPowershell.Text;
+            return txtUrl.Text;
+        }
+
+        private ActionDefinition.ActionType ExtractType()
+        {
+            if (rdoFile.Checked) return ActionDefinition.ActionType.File;
+
+            if (rdoPowershell.Checked) return ActionDefinition.ActionType.Powershell;
+            return ActionDefinition.ActionType.Url;
+        }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void RdoTypeChanged(object sender, EventArgs e)
+        {
+            txtFile.Visible = rdoFile.Checked;
+            txtPowershell.Visible = rdoPowershell.Checked;
+            txtUrl.Visible = rdoUrl.Checked;
         }
     }
 }

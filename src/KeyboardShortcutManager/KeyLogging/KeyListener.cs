@@ -11,6 +11,7 @@ namespace AcamTi.KeyboardShortcutManager.KeyLogging
     {
         private static KeyListener _keyListener;
         private static Thread _keyListenerThread;
+        private static bool _isCancelled;
 
         private readonly Keys[] _keysToExclude =
         {
@@ -50,6 +51,11 @@ namespace AcamTi.KeyboardShortcutManager.KeyLogging
             return _keyListener;
         }
 
+        public static void Stop()
+        {
+            _isCancelled = true;
+        }
+
         private static void StartThread()
         {
             _keyListener ??= new KeyListener();
@@ -70,7 +76,8 @@ namespace AcamTi.KeyboardShortcutManager.KeyLogging
 
             Thread.Sleep(100);
 
-            while (OnKeyActivityChanged != null)
+            while (OnKeyActivityChanged != null &&
+                !_isCancelled)
             {
                 int[] pressedKeys = keyRange
                     .Select((index, state) => (Key: index, State: GetAsyncKeyState(state)))
