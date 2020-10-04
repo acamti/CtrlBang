@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Management.Automation;
 using System.Windows.Forms;
 
 namespace AcamTi.KeyboardShortcutManager
@@ -21,5 +23,29 @@ namespace AcamTi.KeyboardShortcutManager
         public string Name { get; set; }
         public string Content { get; set; }
         public ActionType Type { get; set; }
+
+        public void Execute()
+        {
+            switch (Type)
+            {
+                case ActionType.File:
+                {
+                    Process.Start(Content);
+                    break;
+                }
+                case ActionType.Powershell:
+                {
+                    PowerShell powerShell = PowerShell.Create().AddScript(Content);
+                    powerShell.Invoke();
+                    break;
+                }
+                case ActionType.Url:
+                {
+                    Process.Start("Explorer.exe",Content);
+                    break;
+                }
+                default:             throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }

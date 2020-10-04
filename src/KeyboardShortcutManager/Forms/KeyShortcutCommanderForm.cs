@@ -9,6 +9,7 @@ namespace AcamTi.KeyboardShortcutManager.Forms
     public partial class KeyShortcutCommanderForm : Form
     {
         private readonly KeyShortcutDetector _keyMonitor;
+        private bool _isListening;
         public Func<Settings> GetSettings;
 
         public KeyShortcutCommanderForm()
@@ -28,9 +29,30 @@ namespace AcamTi.KeyboardShortcutManager.Forms
                 if (!Visible) return;
                 BeginInvoke(new MethodInvoker(Hide));
                 lblListening.BeginInvoke(new MethodInvoker(lblListening.Hide));
+
+                if (_isListening)
+                {
+                    foreach (ActionDefinition actionDefinition in GetSettings().ActionDefinitions)
+                    {
+                        var found = true;
+
+                        foreach (Keys key in keys)
+                        {
+                            if (actionDefinition.Shortcut.All(k => k != key))
+                                found = false;
+                        }
+
+                        if (found)
+                            actionDefinition.Execute();
+                    }
+                }
+
+                _isListening = false;
+
                 return;
             }
 
+            _isListening = true;
             BeginInvoke(new MethodInvoker(Show));
             BeginInvoke(new MethodInvoker(() => Focus()));
 
