@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Windows.Forms;
 using AcamTi.KeyboardShortcutManager.Forms;
 
@@ -66,7 +65,33 @@ namespace AcamTi.KeyboardShortcutManager
             _settings = new Settings
             {
                 KeyShortcutActivator = new List<Keys>
-                    { Keys.LWin, Keys.Enter }
+                    { Keys.LWin, Keys.Enter },
+                ActionDefinitions = new List<ActionDefinition>(
+                    new[]
+                    {
+                        new ActionDefinition
+                        {
+                            Shortcut = new[] { Keys.T },
+                            Name = "Windows Terminal",
+                            Content = @"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe Start-Process -Verb RunAs wt",
+                            Type = ActionDefinition.ActionType.Powershell
+                        },
+                        new ActionDefinition
+                        {
+                            Shortcut = new[] { Keys.W, Keys.C },
+                            Name = "Chrome",
+                            Content = @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+                            Type = ActionDefinition.ActionType.File
+                        },
+                        new ActionDefinition
+                        {
+                            Shortcut = new[] { Keys.B, Keys.T },
+                            Name = "Tangerine",
+                            Content = "https://www.tangerine.ca/fr",
+                            Type = ActionDefinition.ActionType.Url
+                        }
+                    }
+                )
             };
         }
 

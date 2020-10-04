@@ -6,5 +6,6 @@ namespace AcamTi.KeyboardShortcutManager
     public class Settings
     {
         public List<Keys> KeyShortcutActivator { get; set; }
+        public List<ActionDefinition> ActionDefinitions { get; set; }
     }
 }
