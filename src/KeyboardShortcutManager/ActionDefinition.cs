@@ -41,10 +41,10 @@ namespace AcamTi.KeyboardShortcutManager
                 }
                 case ActionType.Url:
                 {
-                    Process.Start("Explorer.exe",Content);
+                    Process.Start("Explorer.exe", Content);
                     break;
                 }
-                default:             throw new ArgumentOutOfRangeException();
+                default: throw new ArgumentOutOfRangeException();
             }
         }
     }

@@ -13,11 +13,7 @@ namespace AcamTi.KeyboardShortcutManager
         private static SettingsForm _settingsForm;
         private static IconManager _icon;
         private static Settings _settings;
-        private static KeyShortcutCommanderForm _keyShortcutCommanderForm;
 
-        /// <summary>
-        ///     The main entry point for the application.
-        /// </summary>
         [STAThread]
         private static void Main()
         {
@@ -38,7 +34,7 @@ namespace AcamTi.KeyboardShortcutManager
 
         private static void InitCommander()
         {
-            _keyShortcutCommanderForm = new KeyShortcutCommanderForm
+            _ = new KeyShortcutCommanderForm
             {
                 GetSettings = () => _settings
             };
@@ -59,8 +55,6 @@ namespace AcamTi.KeyboardShortcutManager
                 null,
                 (sender, args) => Application.Exit()
             );
-
-            _icon.SetupClickBehavior(IconOnClick);
         }
 
         private static void InitSettings()

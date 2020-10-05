@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using AcamTi.KeyboardShortcutManager.Extensions;
 using AcamTi.KeyboardShortcutManager.KeyLogging;
 
 namespace AcamTi.KeyboardShortcutManager.Forms
@@ -32,19 +33,10 @@ namespace AcamTi.KeyboardShortcutManager.Forms
 
                 if (_isListening)
                 {
-                    foreach (ActionDefinition actionDefinition in GetSettings().ActionDefinitions)
-                    {
-                        var found = true;
-
-                        foreach (Keys key in keys)
-                        {
-                            if (actionDefinition.Shortcut.All(k => k != key))
-                                found = false;
-                        }
-
-                        if (found)
-                            actionDefinition.Execute();
-                    }
+                    foreach (ActionDefinition actionDefinition in GetSettings()
+                        .ActionDefinitions.Where(
+                            actionDefinition => actionDefinition.Shortcut.IsSameAs(keys)
+                        )) actionDefinition.Execute();
                 }
 
                 _isListening = false;
