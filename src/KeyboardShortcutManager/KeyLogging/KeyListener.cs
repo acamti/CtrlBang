@@ -60,65 +60,70 @@ namespace AcamTi.KeyboardShortcutManager.KeyLogging
         {
             _keyListener ??= new KeyListener();
 
-            if (_keyListenerThread != null &&
-                _keyListenerThread.IsAlive) return;
+            if ( _keyListenerThread != null && _keyListenerThread.IsAlive )
+                return;
 
-            _keyListenerThread = new Thread(
-                () => { _keyListener.ListenToKeyboardActivity(); }
-            );
+            _keyListenerThread = new Thread(() => { _keyListener.ListenToKeyboardActivity(); });
 
             _keyListenerThread.Start();
         }
 
         private void ListenToKeyboardActivity()
         {
-            int[] keyRange = Enumerable.Range(0, 254).ToArray();
+            var keyStates = Enumerable
+                .Range(0, 254)
+                .Select((index, state) => ( Key: index, State: 0 ))
+                .ToArray();
 
             Thread.Sleep(100);
 
-            while (OnKeyActivityChanged != null &&
-                !_isCancelled)
+            while ( OnKeyActivityChanged != null && !_isCancelled )
             {
-                int[] pressedKeys = keyRange
-                    .Select((index, state) => (Key: index, State: GetAsyncKeyState(state)))
+                for (var index = 0; index < 254; index++)
+                {
+                    keyStates[index].State = GetAsyncKeyState(keyStates[index].Key);
+                }
+
+                IEnumerable<int> pressedKeys = keyStates
                     .Where(x => x.State != 0)
                     .Select(x => x.Key)
                     .ToArray();
 
                 ReleasePressedKeys(pressedKeys.Select(key => key));
 
-                foreach (int keyValue in pressedKeys)
+                foreach (var keyValue in pressedKeys)
                     PressKey(keyValue);
             }
         }
 
         private void PressKey(int keyValue)
         {
-            if (_monitoredKeys.Any(key => key == (Keys) keyValue))
+            if ( _monitoredKeys.Any(key => key == (Keys)keyValue) )
                 return;
 
-            if (!IsMonitored(keyValue)) return;
+            if ( !IsMonitored(keyValue) ) return;
 
-            _monitoredKeys.Add((Keys) keyValue);
+            _monitoredKeys.Add((Keys)keyValue);
 
-            OnKeyActivityChanged(_monitoredKeys.OrderBy(key => (int) key).ToArray());
+            OnKeyActivityChanged(_monitoredKeys
+                                     .OrderBy(key => (int)key)
+                                     .ToArray());
         }
 
         private bool IsMonitored(int keyValue) =>
-            _keysToExclude.All(keyNotMonitored => keyNotMonitored != (Keys) keyValue);
+            _keysToExclude.All(keyNotMonitored => keyNotMonitored != (Keys)keyValue);
 
         private void ReleasePressedKeys(IEnumerable<int> pressedKeys)
         {
-            IEnumerable<Keys> keysToBeRelease = _monitoredKeys
-                .Where(key => pressedKeys.All(pressedKey => (Keys) pressedKey != key));
+            var keysToBeRelease = _monitoredKeys
+                .Where(key => pressedKeys.All(pressedKey => (Keys)pressedKey != key));
 
             _monitoredKeys = new List<Keys>(
-                _monitoredKeys
-                    .Where(key => keysToBeRelease.All(toBeReleasedKey => key != toBeReleasedKey))
-            );
+                _monitoredKeys.Where(
+                    key => keysToBeRelease.All(toBeReleasedKey => key != toBeReleasedKey)));
 
-            if (keysToBeRelease.Any())
-                OnKeyActivityChanged(_monitoredKeys.OrderBy(k => (int) k).ToArray());
+            if ( keysToBeRelease.Any() )
+                OnKeyActivityChanged(_monitoredKeys.OrderBy(k => (int)k).ToArray());
         }
 
         [DllImport("user32.dll")]

@@ -25,15 +25,16 @@ namespace AcamTi.KeyboardShortcutManager.Forms
 
         private void OnShortcutDetected(IEnumerable<Keys> keys)
         {
-            if (!IsShortcutActivator(keys))
+            if ( !IsShortcutActivator(keys) )
             {
-                if (!Visible) return;
+                if ( !Visible ) return;
+
                 BeginInvoke(new MethodInvoker(Hide));
                 lblListening.BeginInvoke(new MethodInvoker(lblListening.Hide));
 
-                if (_isListening)
+                if ( _isListening )
                 {
-                    foreach (ActionDefinition actionDefinition in GetSettings()
+                    foreach (var actionDefinition in GetSettings()
                         .ActionDefinitions.Where(
                             actionDefinition => actionDefinition.Shortcut.IsSameAs(keys)
                         )) actionDefinition.Execute();
@@ -53,12 +54,11 @@ namespace AcamTi.KeyboardShortcutManager.Forms
 
         private bool IsShortcutActivator(IEnumerable<Keys> keys)
         {
-            if (keys.Count() != GetSettings().KeyShortcutActivator.Count) return false;
+            if ( keys.Count() != GetSettings().KeyShortcutActivator.Count )
+                return false;
 
-            return keys.All(
-                key =>
-                    GetSettings().KeyShortcutActivator.Any(k => (int) k == (int) key)
-            );
+            return keys.All(key =>
+                                GetSettings().KeyShortcutActivator.Any(k => (int)k == (int)key));
         }
 
         private void KeyShortcutCommander_FormClosing(object sender, FormClosingEventArgs e)

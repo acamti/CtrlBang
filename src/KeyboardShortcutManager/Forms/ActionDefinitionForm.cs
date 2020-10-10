@@ -29,7 +29,7 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             _keyShortcutActivator = new List<Keys>(actionDefinition.Shortcut);
             DisplayKeyShortcut();
 
-            if (actionDefinition.Type == ActionDefinition.ActionType.Powershell)
+            if ( actionDefinition.Type == ActionDefinition.ActionType.Powershell )
                 txtPowershell.Text = actionDefinition.Content;
         }
 
@@ -64,38 +64,40 @@ namespace AcamTi.KeyboardShortcutManager.Forms
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            ActionDefinition actionDef = BuildActionDefinition();
+            var actionDef = BuildActionDefinition();
 
-            if (txtName.Text.Trim() == string.Empty)
+            if ( txtName.Text.Trim() == string.Empty )
             {
                 MessageBox.Show("Name must not be empty");
+
                 return;
             }
 
-            if (rdoFile.Checked &&
-                txtFile.Text.Trim() == string.Empty)
+            if ( rdoFile.Checked && txtFile.Text.Trim() == string.Empty )
             {
                 MessageBox.Show("File location cannot be empty");
+
                 return;
             }
 
-            if (rdoPowershell.Checked &&
-                txtPowershell.Text.Trim() == string.Empty)
+            if ( rdoPowershell.Checked && txtPowershell.Text.Trim() == string.Empty )
             {
                 MessageBox.Show("Powershell script cannot be empty");
+
                 return;
             }
 
-            if (rdoUrl.Checked &&
-                txtUrl.Text.Trim() == string.Empty)
+            if ( rdoUrl.Checked && txtUrl.Text.Trim() == string.Empty )
             {
                 MessageBox.Show("Url cannot be empty");
+
                 return;
             }
 
-            if (!_actionDefinitionValidator(actionDef))
+            if ( !_actionDefinitionValidator(actionDef) )
             {
                 MessageBox.Show("Invalid Key Combinaison");
+
                 return;
             }
 
@@ -114,17 +116,23 @@ namespace AcamTi.KeyboardShortcutManager.Forms
 
         private string ExtractContent()
         {
-            if (rdoFile.Checked) return txtFile.Text;
+            if ( rdoFile.Checked )
+                return txtFile.Text;
 
-            if (rdoPowershell.Checked) return txtPowershell.Text;
+            if ( rdoPowershell.Checked )
+                return txtPowershell.Text;
+
             return txtUrl.Text;
         }
 
         private ActionDefinition.ActionType ExtractType()
         {
-            if (rdoFile.Checked) return ActionDefinition.ActionType.File;
+            if ( rdoFile.Checked )
+                return ActionDefinition.ActionType.File;
 
-            if (rdoPowershell.Checked) return ActionDefinition.ActionType.Powershell;
+            if ( rdoPowershell.Checked )
+                return ActionDefinition.ActionType.Powershell;
+
             return ActionDefinition.ActionType.Url;
         }
 

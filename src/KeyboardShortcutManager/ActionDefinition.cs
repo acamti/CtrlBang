@@ -31,17 +31,19 @@ namespace AcamTi.KeyboardShortcutManager
                 case ActionType.File:
                 {
                     Process.Start(Content);
+
                     break;
                 }
                 case ActionType.Powershell:
                 {
-                    PowerShell powerShell = PowerShell.Create().AddScript(Content);
-                    powerShell.Invoke();
+                    PowerShell.Create().AddScript(Content).Invoke();
+
                     break;
                 }
                 case ActionType.Url:
                 {
                     Process.Start("Explorer.exe", Content);
+
                     break;
                 }
                 default: throw new ArgumentOutOfRangeException();

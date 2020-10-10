@@ -96,7 +96,7 @@ namespace AcamTi.KeyboardShortcutManager.Forms
 
         private bool ActionDefinitionValidator(ActionDefinition itemToValidate)
         {
-            if (_settings.ActionDefinitions.Any(item => item.Id == itemToValidate.Id))
+            if ( _settings.ActionDefinitions.Any(item => item.Id == itemToValidate.Id) )
             {
                 return _settings.ActionDefinitions
                     .Where(i => i.Id != itemToValidate.Id)
@@ -107,14 +107,15 @@ namespace AcamTi.KeyboardShortcutManager.Forms
                 .All(item => IsKeyCombinaisonDifferent(item, itemToValidate));
         }
 
-        private static bool IsKeyCombinaisonDifferent(ActionDefinition actionDefinition1,
+        private static bool IsKeyCombinaisonDifferent(
+            ActionDefinition actionDefinition1,
             ActionDefinition actionDefinition2)
         {
             var valid = false;
             Keys[] shortcutList1;
             Keys[] shortcutList2;
 
-            if (actionDefinition1.Shortcut.Count() > actionDefinition2.Shortcut.Count())
+            if ( actionDefinition1.Shortcut.Count() > actionDefinition2.Shortcut.Count() )
             {
                 shortcutList1 = actionDefinition1.Shortcut.ToArray();
                 shortcutList2 = actionDefinition2.Shortcut.ToArray();
@@ -125,9 +126,9 @@ namespace AcamTi.KeyboardShortcutManager.Forms
                 shortcutList2 = actionDefinition1.Shortcut.ToArray();
             }
 
-            foreach (Keys key in shortcutList1)
+            foreach (var key in shortcutList1)
             {
-                if (shortcutList2.All(k => k != key))
+                if ( shortcutList2.All(k => k != key) )
                     valid = true;
             }
 
@@ -136,7 +137,7 @@ namespace AcamTi.KeyboardShortcutManager.Forms
 
         private void btnModify_Click(object sender, EventArgs e)
         {
-            if (lstActionDefinitions.SelectedIndices.Count <= 0) return;
+            if ( lstActionDefinitions.SelectedIndices.Count <= 0 ) return;
 
             _actionDefinitionForm = new ActionDefinitionForm(
                 lstActionDefinitions.SelectedItems[0].Tag as ActionDefinition,
@@ -145,11 +146,11 @@ namespace AcamTi.KeyboardShortcutManager.Forms
 
             _actionDefinitionForm.OnSave += actionDefinition =>
             {
-                int index = _settings.ActionDefinitions.FindIndex(
+                var index = _settings.ActionDefinitions.FindIndex(
                     i => i.Id == actionDefinition.Id
                 );
 
-                if (index > -1)
+                if ( index > -1 )
                     _settings.ActionDefinitions[index] = actionDefinition;
 
                 PrepareListOfActions();
@@ -164,15 +165,15 @@ namespace AcamTi.KeyboardShortcutManager.Forms
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            if (lstActionDefinitions.SelectedIndices.Count <= 0) return;
+            if ( lstActionDefinitions.SelectedIndices.Count <= 0 ) return;
 
             var actionDefinition = lstActionDefinitions.SelectedItems[0].Tag as ActionDefinition;
 
-            int index = _settings.ActionDefinitions.FindIndex(
+            var index = _settings.ActionDefinitions.FindIndex(
                 i => i.Id == actionDefinition?.Id
             );
 
-            if (index > -1)
+            if ( index > -1 )
                 _settings.ActionDefinitions.RemoveAt(index);
 
             PrepareListOfActions();

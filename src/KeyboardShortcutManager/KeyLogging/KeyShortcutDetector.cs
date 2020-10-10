@@ -37,10 +37,10 @@ namespace AcamTi.KeyboardShortcutManager.KeyLogging
 
         private void OnKeyActivityChanged(Keys[] keys)
         {
-            if (keys.Any())
+            if ( keys.Any() )
             {
-                IEnumerable<Keys> newKeys = keys.Where(k => _pressedKeys.Contains(k) == false);
-                (_pressedKeys ??= new List<Keys>()).AddRange(newKeys);
+                var newKeys = keys.Where(k => _pressedKeys.Contains(k) == false);
+                ( _pressedKeys ??= new List<Keys>() ).AddRange(newKeys);
             }
             else
             {

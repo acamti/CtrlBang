@@ -59,9 +59,10 @@ namespace AcamTi.KeyboardShortcutManager
 
         private static void InitSettings()
         {
-            if (File.Exists("./settings.json"))
+            if ( File.Exists("./settings.json") )
             {
                 _settings = JsonSerializer.Deserialize<Settings>(File.ReadAllText("./settings.json"));
+
                 return;
             }
 
@@ -80,8 +81,7 @@ namespace AcamTi.KeyboardShortcutManager
 
         private static void IconOnClick(object sender, EventArgs e)
         {
-            if (_settingsForm is null ||
-                !_settingsForm.Visible)
+            if ( _settingsForm is null || !_settingsForm.Visible )
             {
                 _settingsForm = new SettingsForm(_settings)
                 {
