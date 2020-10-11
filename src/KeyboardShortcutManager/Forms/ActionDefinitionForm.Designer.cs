@@ -45,10 +45,9 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             // 
             // btnSetShortcut
             // 
-            this.btnSetShortcut.Location = new System.Drawing.Point(16, 33);
-            this.btnSetShortcut.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.btnSetShortcut.Location = new System.Drawing.Point(6, 14);
             this.btnSetShortcut.Name = "btnSetShortcut";
-            this.btnSetShortcut.Size = new System.Drawing.Size(248, 44);
+            this.btnSetShortcut.Size = new System.Drawing.Size(93, 18);
             this.btnSetShortcut.TabIndex = 0;
             this.btnSetShortcut.Text = "Set Shortcut";
             this.btnSetShortcut.UseVisualStyleBackColor = true;
@@ -57,10 +56,9 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             // 
             // lblShortcut
             // 
-            this.lblShortcut.Location = new System.Drawing.Point(290, 33);
-            this.lblShortcut.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lblShortcut.Location = new System.Drawing.Point(109, 14);
             this.lblShortcut.Name = "lblShortcut";
-            this.lblShortcut.Size = new System.Drawing.Size(266, 44);
+            this.lblShortcut.Size = new System.Drawing.Size(100, 18);
             this.lblShortcut.TabIndex = 1;
             this.lblShortcut.Text = "Undefined";
             this.lblShortcut.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -69,31 +67,32 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 140);
+            this.label1.Location = new System.Drawing.Point(6, 59);
+            this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(98, 32);
+            this.label1.Size = new System.Drawing.Size(44, 15);
             this.label1.TabIndex = 2;
             this.label1.Text = "Name:";
 
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(120, 144);
-            this.txtName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtName.Location = new System.Drawing.Point(45, 60);
+            this.txtName.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(551, 38);
-            this.txtName.TabIndex = 3;
+            this.txtName.Size = new System.Drawing.Size(209, 20);
+            this.txtName.TabIndex = 1;
 
             // 
             // rdoFile
             // 
             this.rdoFile.AutoSize = true;
             this.rdoFile.Checked = true;
-            this.rdoFile.Location = new System.Drawing.Point(28, 240);
-            this.rdoFile.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.rdoFile.Location = new System.Drawing.Point(10, 101);
+            this.rdoFile.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.rdoFile.Name = "rdoFile";
-            this.rdoFile.Size = new System.Drawing.Size(99, 36);
-            this.rdoFile.TabIndex = 4;
+            this.rdoFile.Size = new System.Drawing.Size(64, 32);
+            this.rdoFile.TabIndex = 2;
             this.rdoFile.TabStop = true;
             this.rdoFile.Text = "File";
             this.rdoFile.UseVisualStyleBackColor = true;
@@ -103,11 +102,11 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             // rdoPowershell
             // 
             this.rdoPowershell.AutoSize = true;
-            this.rdoPowershell.Location = new System.Drawing.Point(153, 240);
-            this.rdoPowershell.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.rdoPowershell.Location = new System.Drawing.Point(57, 101);
+            this.rdoPowershell.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.rdoPowershell.Name = "rdoPowershell";
-            this.rdoPowershell.Size = new System.Drawing.Size(192, 36);
-            this.rdoPowershell.TabIndex = 4;
+            this.rdoPowershell.Size = new System.Drawing.Size(105, 32);
+            this.rdoPowershell.TabIndex = 3;
             this.rdoPowershell.Text = "Powershell";
             this.rdoPowershell.UseVisualStyleBackColor = true;
             this.rdoPowershell.CheckedChanged += new System.EventHandler(this.RdoTypeChanged);
@@ -116,10 +115,10 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             // rdoUrl
             // 
             this.rdoUrl.AutoSize = true;
-            this.rdoUrl.Location = new System.Drawing.Point(399, 240);
-            this.rdoUrl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.rdoUrl.Location = new System.Drawing.Point(150, 101);
+            this.rdoUrl.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.rdoUrl.Name = "rdoUrl";
-            this.rdoUrl.Size = new System.Drawing.Size(88, 36);
+            this.rdoUrl.Size = new System.Drawing.Size(60, 32);
             this.rdoUrl.TabIndex = 4;
             this.rdoUrl.Text = "Url";
             this.rdoUrl.UseVisualStyleBackColor = true;
@@ -128,11 +127,11 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(808, 33);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnSave.Location = new System.Drawing.Point(303, 14);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(177, 44);
-            this.btnSave.TabIndex = 5;
+            this.btnSave.Size = new System.Drawing.Size(66, 18);
+            this.btnSave.TabIndex = 6;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -140,11 +139,11 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(1012, 33);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCancel.Location = new System.Drawing.Point(380, 14);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(177, 44);
-            this.btnCancel.TabIndex = 6;
+            this.btnCancel.Size = new System.Drawing.Size(66, 18);
+            this.btnCancel.TabIndex = 7;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -155,38 +154,40 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             this.txtPowershell.BackColor = System.Drawing.Color.Blue;
             this.txtPowershell.Font = new System.Drawing.Font("Inconsolata", 9F);
             this.txtPowershell.ForeColor = System.Drawing.Color.White;
-            this.txtPowershell.Location = new System.Drawing.Point(29, 305);
-            this.txtPowershell.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtPowershell.Location = new System.Drawing.Point(11, 128);
+            this.txtPowershell.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.txtPowershell.Multiline = true;
             this.txtPowershell.Name = "txtPowershell";
             this.txtPowershell.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtPowershell.Size = new System.Drawing.Size(1177, 297);
-            this.txtPowershell.TabIndex = 7;
+            this.txtPowershell.Size = new System.Drawing.Size(444, 127);
+            this.txtPowershell.TabIndex = 5;
             this.txtPowershell.Visible = false;
 
             // 
             // txtFile
             // 
-            this.txtFile.Location = new System.Drawing.Point(29, 305);
+            this.txtFile.Location = new System.Drawing.Point(11, 128);
+            this.txtFile.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.txtFile.Name = "txtFile";
-            this.txtFile.Size = new System.Drawing.Size(1177, 38);
-            this.txtFile.TabIndex = 8;
+            this.txtFile.Size = new System.Drawing.Size(444, 20);
+            this.txtFile.TabIndex = 5;
 
             // 
             // txtUrl
             // 
-            this.txtUrl.Location = new System.Drawing.Point(28, 309);
+            this.txtUrl.Location = new System.Drawing.Point(10, 130);
+            this.txtUrl.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.txtUrl.Name = "txtUrl";
-            this.txtUrl.Size = new System.Drawing.Size(1177, 38);
-            this.txtUrl.TabIndex = 9;
+            this.txtUrl.Size = new System.Drawing.Size(444, 20);
+            this.txtUrl.TabIndex = 5;
             this.txtUrl.Visible = false;
 
             // 
             // ActionDefinitionForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1226, 623);
+            this.ClientSize = new System.Drawing.Size(460, 261);
             this.Controls.Add(this.txtUrl);
             this.Controls.Add(this.txtFile);
             this.Controls.Add(this.txtPowershell);
@@ -200,7 +201,6 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             this.Controls.Add(this.lblShortcut);
             this.Controls.Add(this.btnSetShortcut);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ActionDefinitionForm";

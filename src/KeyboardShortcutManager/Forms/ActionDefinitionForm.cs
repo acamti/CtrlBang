@@ -29,8 +29,25 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             _keyShortcutActivator = new List<Keys>(actionDefinition.Shortcut);
             DisplayKeyShortcut();
 
-            if ( actionDefinition.Type == ActionDefinition.ActionType.Powershell )
-                txtPowershell.Text = actionDefinition.Content;
+            switch (actionDefinition.Type)
+            {
+                case ActionDefinition.ActionType.File:
+                    rdoFile.Checked = true;
+                    txtFile.Text = actionDefinition.Content;
+
+                    break;
+                case ActionDefinition.ActionType.Powershell:
+                    rdoPowershell.Checked = true;
+                    txtPowershell.Text = actionDefinition.Content;
+
+                    break;
+                case ActionDefinition.ActionType.Url:
+                    rdoUrl.Checked = true;
+                    txtUrl.Text = actionDefinition.Content;
+
+                    break;
+                default: throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void btnSetShortcut_Click(object sender, EventArgs e)
@@ -142,6 +159,11 @@ namespace AcamTi.KeyboardShortcutManager.Forms
         }
 
         private void RdoTypeChanged(object sender, EventArgs e)
+        {
+            SetTypeVisibility();
+        }
+
+        private void SetTypeVisibility()
         {
             txtFile.Visible = rdoFile.Checked;
             txtPowershell.Visible = rdoPowershell.Checked;
