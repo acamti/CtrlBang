@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using AcamTi.KeyboardShortcutManager.KeyLogging;
+using AcamTi.CtrlBang.KeyLogging;
 
-namespace AcamTi.KeyboardShortcutManager.Forms
+namespace AcamTi.CtrlBang.Forms
 {
     public partial class ActionDefinitionForm : Form
     {

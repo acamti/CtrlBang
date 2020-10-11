@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace AcamTi.KeyboardShortcutManager.KeyLogging
+namespace AcamTi.CtrlBang.KeyLogging
 {
     public class KeyShortcutDetector : IDisposable
     {

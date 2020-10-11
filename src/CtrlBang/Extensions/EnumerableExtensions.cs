@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace AcamTi.KeyboardShortcutManager.Extensions
+namespace AcamTi.CtrlBang.Extensions
 {
     public static class EnumerableExtensions
     {

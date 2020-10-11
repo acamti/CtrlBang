@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace AcamTi.KeyboardShortcutManager
+namespace AcamTi.CtrlBang
 {
     public class Settings
     {

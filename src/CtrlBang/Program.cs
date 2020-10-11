@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Windows.Forms;
-using AcamTi.KeyboardShortcutManager.Forms;
-using AcamTi.KeyboardShortcutManager.KeyLogging;
+using AcamTi.CtrlBang.Forms;
+using AcamTi.CtrlBang.KeyLogging;
 
-namespace AcamTi.KeyboardShortcutManager
+namespace AcamTi.CtrlBang
 {
     internal static class Program
     {

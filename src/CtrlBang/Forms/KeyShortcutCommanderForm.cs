@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using AcamTi.KeyboardShortcutManager.Extensions;
-using AcamTi.KeyboardShortcutManager.KeyLogging;
+using AcamTi.CtrlBang.Extensions;
+using AcamTi.CtrlBang.KeyLogging;
 
-namespace AcamTi.KeyboardShortcutManager.Forms
+namespace AcamTi.CtrlBang.Forms
 {
     public partial class KeyShortcutCommanderForm : Form
     {
@@ -32,8 +32,6 @@ namespace AcamTi.KeyboardShortcutManager.Forms
 
                 BeginInvoke(new MethodInvoker(Hide));
 
-                //lblListening.BeginInvoke(new MethodInvoker(lblListening.Hide));
-
                 if ( _isListening )
                 {
                     foreach (var actionDefinition in GetSettings()
@@ -50,12 +48,7 @@ namespace AcamTi.KeyboardShortcutManager.Forms
             _isListening = true;
             BeginInvoke(new MethodInvoker(Show));
 
-            //lblListening.BeginInvoke(new MethodInvoker(lblListening.Show));
-            //BeginInvoke(new MethodInvoker(() => Focus()));
-            //BeginInvoke(new MethodInvoker(Select));
-            //lblListening.BeginInvoke(new MethodInvoker(lblListening.Select));
             BeginInvoke(new MethodInvoker(() => SetForegroundWindow(Handle)));
-            ;
         }
 
         [DllImport("User32")]

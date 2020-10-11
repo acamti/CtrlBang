@@ -5,7 +5,7 @@ using System.Linq;
 using System.Management.Automation;
 using System.Windows.Forms;
 
-namespace AcamTi.KeyboardShortcutManager
+namespace AcamTi.CtrlBang
 {
     public class ActionDefinition
     {

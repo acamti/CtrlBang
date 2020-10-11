@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace AcamTi.KeyboardShortcutManager
+namespace AcamTi.CtrlBang
 {
     public class IconManager : IDisposable
     {
@@ -17,7 +17,7 @@ namespace AcamTi.KeyboardShortcutManager
                 Icon = new Icon(IconStream),
                 Visible = true,
                 Text = Application.ProductName,
-                BalloonTipTitle = "Keyboard Shortcut Manager",
+                BalloonTipTitle = "CTRL Bang!",
                 BalloonTipText = "Now listening to your commands...",
                 ContextMenuStrip = new ContextMenuStrip()
             };
@@ -26,7 +26,7 @@ namespace AcamTi.KeyboardShortcutManager
         }
 
         private static Stream IconStream =>
-            Assembly.GetExecutingAssembly().GetManifestResourceStream("AcamTi.KeyboardShortcutManager.icon.ico");
+            Assembly.GetExecutingAssembly().GetManifestResourceStream("AcamTi.CtrlBang.icon.ico");
 
         public void Dispose()
         {
@@ -37,11 +37,6 @@ namespace AcamTi.KeyboardShortcutManager
         public void AddMenuItem(string name, Image img, EventHandler eventHandler)
         {
             _icon.ContextMenuStrip.Items.Add(name, img, eventHandler);
-        }
-
-        public void SetupClickBehavior(EventHandler clickAction)
-        {
-            _icon.Click += clickAction;
         }
     }
 }

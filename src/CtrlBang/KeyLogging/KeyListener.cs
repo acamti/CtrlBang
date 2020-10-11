@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace AcamTi.KeyboardShortcutManager.KeyLogging
+namespace AcamTi.CtrlBang.KeyLogging
 {
     public class KeyListener
     {

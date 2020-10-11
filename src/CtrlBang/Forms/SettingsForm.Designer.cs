@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace AcamTi.KeyboardShortcutManager.Forms
+namespace AcamTi.CtrlBang.Forms
 {
     partial class SettingsForm
     {
