@@ -4,8 +4,10 @@
         <OutputType>WinExe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <UseWindowsForms>true</UseWindowsForms>
-        <AssemblyName>AcamTi.CtrlBang</AssemblyName>
+        <AssemblyName>CtrlBang</AssemblyName>
         <RootNamespace>AcamTi.CtrlBang</RootNamespace>
+        <Company>ACAM Services et Conseils TI Inc.</Company>
+        <Product>Ctrl + Bang!</Product>
     </PropertyGroup>
 
     <ItemGroup>
