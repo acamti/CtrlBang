@@ -75,13 +75,12 @@ namespace AcamTi.CtrlBang.KeyLogging
                 .Select((index, state) => ( Key: index, State: 0 ))
                 .ToArray();
 
-            Thread.Sleep(100);
-
             while ( OnKeyActivityChanged != null && !_isCancelled )
             {
                 for (var index = 0; index < 254; index++)
                 {
-                    keyStates[index].State = GetAsyncKeyState(keyStates[index].Key);
+                    const int IS_PRESSED = 0x8000;
+                    keyStates[index].State = GetKeyState(index) & IS_PRESSED;
                 }
 
                 IEnumerable<int> pressedKeys = keyStates
@@ -93,6 +92,8 @@ namespace AcamTi.CtrlBang.KeyLogging
 
                 foreach (var keyValue in pressedKeys)
                     PressKey(keyValue);
+
+                Thread.Sleep(100);
             }
         }
 
@@ -127,6 +128,6 @@ namespace AcamTi.CtrlBang.KeyLogging
         }
 
         [DllImport("user32.dll")]
-        private static extern int GetAsyncKeyState(int i);
+        private static extern short GetKeyState(int key);
     }
 }

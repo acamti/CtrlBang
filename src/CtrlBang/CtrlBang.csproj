@@ -8,6 +8,7 @@
         <RootNamespace>AcamTi.CtrlBang</RootNamespace>
         <Company>ACAM Services et Conseils TI Inc.</Company>
         <Product>Ctrl + Bang!</Product>
+        <ApplicationIcon>icon.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
