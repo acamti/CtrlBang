@@ -44,13 +44,13 @@ namespace AcamTi.CtrlBang
         {
             _icon = new IconManager();
 
-            _icon.AddMenuItem(
+            IconManager.AddMenuItem(
                 "Settings",
                 null,
                 IconOnClick
             );
 
-            _icon.AddMenuItem(
+            IconManager.AddMenuItem(
                 "Exit",
                 null,
                 (sender, args) => Application.Exit()

@@ -8,7 +8,7 @@ namespace AcamTi.CtrlBang
 {
     public class IconManager : IDisposable
     {
-        private NotifyIcon _icon;
+        private static NotifyIcon _icon;
 
         public IconManager()
         {
@@ -17,12 +17,10 @@ namespace AcamTi.CtrlBang
                 Icon = new Icon(IconStream),
                 Visible = true,
                 Text = Application.ProductName,
-                BalloonTipTitle = "CTRL Bang!",
-                BalloonTipText = "Now listening to your commands...",
                 ContextMenuStrip = new ContextMenuStrip()
             };
 
-            _icon.ShowBalloonTip(2000);
+            Alert(1000, "Now listening to your commands...", ToolTipIcon.Info);
         }
 
         private static Stream IconStream =>
@@ -34,9 +32,14 @@ namespace AcamTi.CtrlBang
             _icon = null;
         }
 
-        public void AddMenuItem(string name, Image img, EventHandler eventHandler)
+        public static void AddMenuItem(string name, Image img, EventHandler eventHandler)
         {
             _icon.ContextMenuStrip.Items.Add(name, img, eventHandler);
+        }
+
+        public static void Alert(int timeout, string message, ToolTipIcon icon)
+        {
+            _icon.ShowBalloonTip(timeout, "CTRL + Bang!", message, icon);
         }
     }
 }

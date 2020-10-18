@@ -34,10 +34,21 @@ namespace AcamTi.CtrlBang.Forms
 
                 if ( _isListening )
                 {
-                    foreach (var actionDefinition in GetSettings()
-                        .ActionDefinitions.Where(
-                            actionDefinition => actionDefinition.Shortcut.IsSameAs(keys)
-                        )) actionDefinition.Execute();
+                    try
+                    {
+                        foreach (var actionDefinition in GetSettings()
+                            .ActionDefinitions.Where(
+                                actionDefinition => actionDefinition.Shortcut.IsSameAs(keys)
+                            ))
+                        {
+                            IconManager.Alert(1000, $"Starting {actionDefinition.Name}...", ToolTipIcon.Info);
+                            actionDefinition.Execute();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        IconManager.Alert(3000, e.Message, ToolTipIcon.Error);
+                    }
                 }
 
                 _isListening = false;
